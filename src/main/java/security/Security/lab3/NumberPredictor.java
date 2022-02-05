@@ -55,19 +55,31 @@ public class NumberPredictor {
 		MersenneTwister twister = new MersenneTwister();
 		GamePlayer gamer = new GamePlayer(player);
 		MTRandom twisterGenerator = new MTRandom();
-		long seed = player.getCreationMoment().toEpochSecond(ZoneOffset.of("Z"));
-		seed = player.getSeedTime().toEpochSecond();
+		long seed = (int) player.getCreationMoment().toEpochSecond(ZoneOffset.UTC);
+		//seed = player.getSeedTime().toEpochSecond();
 		twisterGenerator.setSeed(seed);
 		twister.setSeed(seed);
 		//twisterGenerator.setSeed(player.getCreationMoment().get);
 		System.out.println("created: " + player.getCreationMoment().toString());
 		System.out.println("Will be deleted: " + player.getDeletionMoment().toString());
-		System.out.println("seed: " + player.getCreationMoment().toEpochSecond(ZoneOffset.ofTotalSeconds(0)));
+		System.out.println("seed: " + seed);
+		System.out.println("lol:" + 0xfffffff);	
+		System.out.println(-5 & 10);
+		MersenneTwister19937 mt19937 = new MersenneTwister19937(seed);
 		do {
-		long gamble = twister.nextInt();
+		//long gamble = (long) Math.floor(twisterGenerator.nextDouble() * 0xfffffff); 
+		//long gamble = twister.nextLong(4294967296l);
+		long gamble = twister.nextInt(Integer.MAX_VALUE);
+		//long gamble = mt19937.nextInt();
 		System.out.println("Gamble: " + gamble);
-		gamer.playMarsenneTwister(100, gamble);
+		System.out.println("gamblexxxxx:" + (gamble & 0xffffffff));	
+		long result = gamer.playMarsenneTwister(10, gamble);
 		System.out.println("money: " + player.getMoney());
+		if(gamble != result) {
+			player.setCreationMoment(player.getCreationMoment().plusSeconds(1));
+			seed = player.getCreationMoment().toEpochSecond(ZoneOffset.UTC);
+			twister.setSeed(seed);
+		}
 		}while(player.getMoney() < 1000000 && player.getMoney() != 0);
 		
 		
