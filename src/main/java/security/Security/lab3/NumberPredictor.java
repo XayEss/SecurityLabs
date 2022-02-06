@@ -55,7 +55,7 @@ public class NumberPredictor {
 		MersenneTwister twister = new MersenneTwister();
 		GamePlayer gamer = new GamePlayer(player);
 		MTRandom twisterGenerator = new MTRandom();
-		long seed = (int) player.getCreationMoment().toEpochSecond(ZoneOffset.UTC);
+		int seed = (int) player.getCreationMoment().toEpochSecond(ZoneOffset.UTC);
 		//seed = player.getSeedTime().toEpochSecond();
 		twisterGenerator.setSeed(seed);
 		twister.setSeed(seed);
@@ -63,26 +63,31 @@ public class NumberPredictor {
 		System.out.println("created: " + player.getCreationMoment().toString());
 		System.out.println("Will be deleted: " + player.getDeletionMoment().toString());
 		System.out.println("seed: " + seed);
-		System.out.println("lol:" + 0xfffffff);	
-		System.out.println(-5 & 10);
-		MersenneTwister19937 mt19937 = new MersenneTwister19937(seed);
 		do {
 		//long gamble = (long) Math.floor(twisterGenerator.nextDouble() * 0xfffffff); 
 		//long gamble = twister.nextLong(4294967296l);
-		long gamble = twister.nextInt(Integer.MAX_VALUE);
-		//long gamble = mt19937.nextInt();
+		long gamble = convertToUint(twister.nextInt());
 		System.out.println("Gamble: " + gamble);
-		System.out.println("gamblexxxxx:" + (gamble & 0xffffffff));	
-		long result = gamer.playMarsenneTwister(10, gamble);
+		long result = gamer.playMarsenneTwister(100, gamble);
 		System.out.println("money: " + player.getMoney());
 		if(gamble != result) {
-			player.setCreationMoment(player.getCreationMoment().plusSeconds(1));
-			seed = player.getCreationMoment().toEpochSecond(ZoneOffset.UTC);
-			twister.setSeed(seed);
+//			player.setCreationMoment(player.getCreationMoment().minusSeconds(1));
+//			seed = player.getCreationMoment().toEpochSecond(ZoneOffset.UTC);
+//			System.out.println("new time: "+ player.getCreationMoment().toString());
+//			twister.setSeed(seed);
+		}else {
+			System.out.println("///////////////////////////////////////////////////////////////WIN\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 		}
 		}while(player.getMoney() < 1000000 && player.getMoney() != 0);
 		
 		
+	}
+	
+	public long convertToUint(int number) {
+		long l = number;
+		if(l < 0) 
+			l += 4294967296l;
+		return l;
 	}
 
 }

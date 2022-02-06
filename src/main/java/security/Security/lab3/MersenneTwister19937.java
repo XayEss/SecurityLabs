@@ -113,6 +113,17 @@ public class MersenneTwister19937 {
         final int unShiftedResult = Math.abs(nextInt()) % range;
         return unShiftedResult + lowerBound;
     }
+    
+    public int nextLongBetween() {
+        if (index >= N) {
+            twist();
+        }
+
+        //fetch the next number from the array
+        // and do some "tempering" before returning
+        int y = MT[index++];
+        return temper(y);
+    }
 
     /**
      * re-populates the state array with a new set of random numbers

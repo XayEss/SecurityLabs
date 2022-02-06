@@ -10,26 +10,58 @@ public class Lab3Main {
 		NumberPredictor predictor = new NumberPredictor();
 		//predictor.predictLcg();
 		predictor.predictMarsenneTwister();
+		
+	}
+	
+	public static void mersenneTest() {
 		MersenneTwister twister = new MersenneTwister();
 		security.Security.lab3.MersenneTwister newTwister = new security.Security.lab3.MersenneTwister();
 		MTRandom twisterGenerator = new MTRandom();
 		int seed = 1644084567;
-		MersenneTwister19937 mt19937 = new MersenneTwister19937(1644084567);
+		seed = 1644151275;
+		String first = "1434761620";
+		String real = "1564508688";
+		String actualSeed = "1644149522";
+		long firstReal = Long.valueOf(real);
 		//seed = player.getSeedTime().toEpochSecond();
 		twisterGenerator.setSeed(seed);
 		twister.setSeed(seed);
 		newTwister.setSeed(seed);
-		for(int i = 0; i < 10; i++) {
-			System.out.println("MTRand: " + twisterGenerator.nextLong());
-		}
-		for(int i = 0; i < 10; i++) {
-			System.out.println("Mersenne: " + twister.nextLong(4294967296l));
-		} 
-		for(int i = 0; i < 10; i++) {
-			System.out.println("Mersenne2: " + newTwister.nextLong(4294967296l));
-		} 
-		for(int i = 0; i < 10; i++) {
-			System.out.println("Mersenne3: " + mt19937.nextIntBetween(0, Integer.MAX_VALUE));
-		} 
+		long a = 0;
+		long b = 0;
+		long c = 0;
+		do {
+			a = convertToUint(twisterGenerator.nextInt());
+			b = convertToUint(twister.nextInt());
+			c = convertToUint(newTwister.nextInt());
+			System.out.println("MTRand: " + a);
+			System.out.println("Mersenne: " + b);
+			System.out.println("Mersenne2: " + c);
+			System.out.println("seed: " + seed);
+			seed--;
+			twisterGenerator.setSeed(seed);
+			twister.setSeed(seed);
+			newTwister.setSeed(seed);
+		}	while(a != firstReal && b != firstReal && c != firstReal);
+
+//		for(int i = 0; i < 10; i++) {
+//			System.out.println("MTRand: " + convertToUint(twisterGenerator.nextInt()));
+//		}
+//		for(int i = 0; i < 10; i++) {
+//			System.out.println("Mersenne: " + convertToUint(twister.nextInt()));
+//		} 
+//		for(int i = 0; i < 10; i++) {
+//			System.out.println("Mersenne2: " + convertToUint(newTwister.nextInt()));
+//		} 
+//		for(int i = 0; i < 10; i++) {
+//			System.out.println("Mersenne3: " + mt19937.nextIntBetween(0, Integer.MAX_VALUE));
+//		} 
+	}
+	
+	public static long convertToUint(int number) {
+		long l = number;
+		if(l < 0) 
+			l += 4294967296l;
+		return l;
 	}
 }
