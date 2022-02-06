@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AccountCreator {
 	private static final String CREATE_ACCOUNT_TEMPLATE = "http://95.217.177.249/casino/createacc?id=%d";
-	private int startId = 88888;
+	private int startId = 99999;
 	
 	public Account createAccount() {
 		Account account = null;
@@ -28,7 +28,7 @@ public class AccountCreator {
 				//connection.setRequestProperty("id", String.valueOf(startId++));
 				//connection.connect();
 				response = connection.getResponseCode();
-				System.out.println("id: " + startId + "response: " + response);
+				System.out.println("id: " + startId + " response: " + response);
 				System.out.println(connection.getURL());
 			}while(response != HttpURLConnection.HTTP_CREATED);
 			try(BufferedInputStream reader = new BufferedInputStream(connection.getInputStream())){

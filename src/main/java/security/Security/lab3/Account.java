@@ -18,7 +18,6 @@ public class Account {
 	private LocalDateTime creationMoment;
 	private String deletionTime;
 	private LocalDateTime deletionMoment;
-	private OffsetDateTime seedTime;
 	
 	
 	@JsonGetter("id")
@@ -51,10 +50,7 @@ public class Account {
 	public void setDeletionTime(String deletionTime) {
 		deletionTime = deletionTime.replaceFirst("Z", "");
 		deletionMoment = LocalDateTime.parse(deletionTime);
-		//deletionMoment =  new SimpleDateFormat("yyyy-mm-ddThh-mm-ss").parse(deletionTime);
 		creationMoment = deletionMoment.minusHours(1);
-		//creationMoment = deletionMoment;
-		seedTime = creationMoment.atOffset(ZoneOffset.UTC); /////////////////////////////////////change////////////////////////////////
 		this.deletionTime = deletionTime;
 	}
 	
@@ -70,9 +66,7 @@ public class Account {
 		return "Account [id=" + id + ", money=" + money + ", creationMoment=" + creationMoment + ", deletionMoment="
 				+ deletionMoment + "]";
 	}
-	public OffsetDateTime getSeedTime() {
-		return seedTime;
-	}
+	
 	public void setCreationMoment(LocalDateTime creationMoment) {
 		this.creationMoment = creationMoment;
 	}
