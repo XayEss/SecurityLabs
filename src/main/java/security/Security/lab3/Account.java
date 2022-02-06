@@ -58,6 +58,7 @@ public class Account {
 		this.deletionTime = deletionTime;
 	}
 	
+	
 	public LocalDateTime getDeletionMoment() {
 		return deletionMoment;
 	}
@@ -71,6 +72,9 @@ public class Account {
 	}
 	public OffsetDateTime getSeedTime() {
 		return seedTime;
+	}
+	public void setCreationMoment(LocalDateTime creationMoment) {
+		this.creationMoment = creationMoment;
 	}
 	
 	
