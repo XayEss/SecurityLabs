@@ -15,6 +15,15 @@ public class Gene {
 		genKey();
 	}
 	
+	
+	
+	public Gene(String key) {
+		alphabet = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		this.key = key;
+	}
+
+
+
 	public void genKey() {
 		Random rand = new Random();
 		char next;
@@ -25,7 +34,6 @@ public class Gene {
 			key += next;
 			letters.deleteCharAt(index);
 		}
-		System.out.println("key: " + key);
 	}
 	
 	public String encodeTextGene(String text) {
@@ -39,6 +47,19 @@ public class Gene {
 	
 	public double calculateFitness(String text) {
 		return fitness = EnglishTextAnalyzer.isEnglishTextQuotient(encodeTextGene(text));
+	}
+	
+	public void mutate() {
+		Random rand = new Random();
+		int firstPosition = rand.nextInt(key.length());
+		int potentialSecond = -1;
+		do {
+		potentialSecond = rand.nextInt(key.length());
+		}while (firstPosition == potentialSecond);
+		int secondPosition = potentialSecond;
+		char buffer = key.charAt(firstPosition);
+		key = key.replace(key.charAt(firstPosition), key.charAt(secondPosition));
+		key = key.replace(key.charAt(secondPosition), buffer);
 	}
 
 	public String getKey() {
