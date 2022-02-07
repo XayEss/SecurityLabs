@@ -91,12 +91,12 @@ public class Part3 {
 				bytes[1] = (byte) k;
 				for (int l = 0; l < 256; l++) {
 					bytes[2] = (byte) l;
-					for (int m = 0; m < symbols.length / 4; m++) {
+					for (int m = 0; m < symbols.length / 1; m++) {
 						text.append((char) (symbols[m] ^ bytes[m % keyLength]));
 						// System.out.println("m: " + m + "n: " + m%3);
 					}
 					// if(EnglishTextAnalyzer.isEnglishText(text.toString())) {
-					// if (text.toString().contains("Write a code")) {
+					if (text.toString().contains("Write a code")) {
 					double quotient = EnglishTextAnalyzer.isEnglishTextQuotient(text.toString());
 					if (quotient <= nearestQuotient) {
 						nearestQuotient = quotient;
@@ -107,7 +107,7 @@ public class Part3 {
 						System.out.println(quotient);
 
 					}
-					// }
+					 }
 					text.delete(0, text.length());
 				}
 			}
@@ -125,7 +125,8 @@ public class Part3 {
 				}
 				// System.out.println("m: " + m + "n: " + m%3);
 			}
-			if(text.toString().contains("the") || text.toString().contains("an") || text.toString().contains("to"))
+			//if(text.toString().contains("the") || text.toString().contains("an") || text.toString().contains("to"))
+			if (text.toString().contains("Write a code")) 
 			System.out.println(text.toString());
 			text.delete(0, text.length());
 		}

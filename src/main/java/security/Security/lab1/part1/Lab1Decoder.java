@@ -59,12 +59,13 @@ public class Lab1Decoder {
 		byte[] array = new byte[8];
 		for (int i = 0; i < arr.length; i++) {
 			array[i % 8] = arr[i];
-			if (i % 8 == 0) {
+			if (i % 8 == 0 && i != 0) {
 				String string = (new String(array));
 				symbolsInBinary[i / 8] = string;
 				//array = new byte[8];
 			}
 
+			//System.out.println(symbolsInBinary[i/8]);
 		}
 		return symbolsInBinary;
 	}
