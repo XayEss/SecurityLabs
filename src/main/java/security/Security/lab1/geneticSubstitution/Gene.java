@@ -8,17 +8,15 @@ public class Gene {
 	
 	private String key = "";
 	private double fitness;
-	private StringBuilder alphabet;
+	private static final StringBuilder alphabet = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	
 	public Gene() {
-		alphabet = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		genKey();
 	}
 	
 	
 	
 	public Gene(String key) {
-		alphabet = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		this.key = key;
 	}
 
@@ -27,13 +25,15 @@ public class Gene {
 	public void genKey() {
 		Random rand = new Random();
 		char next;
-		StringBuilder letters = new StringBuilder(alphabet.toString());
+		StringBuilder letters = new StringBuilder(alphabet);
+		StringBuilder keyBuilder = new StringBuilder();
 		for(int i = 0; i < 26; i++) {
 			int index = rand.nextInt(letters.length());
 			next = letters.charAt(index);
-			key += next;
+			keyBuilder.append(next);
 			letters.deleteCharAt(index);
 		}
+		key = keyBuilder.toString();
 	}
 	
 	public String encodeTextGene(String text) {
@@ -52,14 +52,17 @@ public class Gene {
 	public void mutate() {
 		Random rand = new Random();
 		int firstPosition = rand.nextInt(key.length());
-		int potentialSecond = -1;
+		int secondPosition = -1;
+		StringBuilder keyChanger = new StringBuilder(key);
+		//System.out.println("bef: " + key);
 		do {
-		potentialSecond = rand.nextInt(key.length());
-		}while (firstPosition == potentialSecond);
-		int secondPosition = potentialSecond;
+			secondPosition = rand.nextInt(key.length());
+		}while (firstPosition == secondPosition);
 		char buffer = key.charAt(firstPosition);
-		key = key.replace(key.charAt(firstPosition), key.charAt(secondPosition));
-		key = key.replace(key.charAt(secondPosition), buffer);
+		keyChanger.setCharAt(firstPosition, keyChanger.charAt(secondPosition));
+		keyChanger.setCharAt(secondPosition, buffer);
+		key = keyChanger.toString();
+		//System.out.println("aft: " + key);
 	}
 
 	public String getKey() {
@@ -70,6 +73,12 @@ public class Gene {
 		return fitness;
 	}
 	
-	
+	public String decodeTextGene(String text) {
+		StringBuilder resultText = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			resultText.append(alphabet.charAt(key.indexOf(String.valueOf(text.charAt(i)))));
+		}
+		return resultText.toString();
+	}
 
 }

@@ -9,10 +9,10 @@ public class GeneticMain {
 	public static void main(String[] args) {
 		Gene gene = new Gene();
 		String phrase = "HELLOWORLDFROMALLTHELOVERSOFCHOCOLATEICECREAM";
-		String encodedPhrase = "EJVVSMSNVOHNSFRVVXEJVSWJNASHUESUSVRXJDUJUNJRF";
-		System.out.println( gene.encodeTextGene(phrase));
+		String encodedPhrase = gene.encodeTextGene(phrase);
+//		System.out.println( gene.decodeTextGene(encodedPhrase));
 		GeneticDecryptor decryptor = new GeneticDecryptor();
-		decryptor.decryptText(text);
+		decryptor.decryptText(encodedPhrase);
 		//System.out.println("freq 1: " + EnglishTextAnalyzer.isEnglishTextQuotient(phrase.toLowerCase()));
 		//System.out.println("freq 2: " + EnglishTextAnalyzer.isEnglishTextQuotient(gene.encodeTextGene(phrase).toLowerCase()));
 	}
