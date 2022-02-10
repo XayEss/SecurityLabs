@@ -20,8 +20,6 @@ public class Gene {
 		this.key = key;
 	}
 
-
-
 	public void genKey() {
 		Random rand = new Random();
 		char next;
@@ -54,7 +52,6 @@ public class Gene {
 		int firstPosition = rand.nextInt(key.length());
 		int secondPosition = -1;
 		StringBuilder keyChanger = new StringBuilder(key);
-		//System.out.println("bef: " + key);
 		do {
 			secondPosition = rand.nextInt(key.length());
 		}while (firstPosition == secondPosition);
@@ -62,7 +59,6 @@ public class Gene {
 		keyChanger.setCharAt(firstPosition, keyChanger.charAt(secondPosition));
 		keyChanger.setCharAt(secondPosition, buffer);
 		key = keyChanger.toString();
-		//System.out.println("aft: " + key);
 	}
 
 	public String getKey() {

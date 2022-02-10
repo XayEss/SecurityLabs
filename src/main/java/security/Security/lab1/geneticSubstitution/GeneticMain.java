@@ -5,16 +5,20 @@ import security.Security.lab1.EnglishTextAnalyzer;
 public class GeneticMain {
 	
 	private static String text = "UMUPLYRXOYRCKTYYPDYZTOUYDZHYJYUNTOMYTOLTKAOHOKZCMKAVZDYBRORPTHQLSERUOERMKZGQJOIDJUDNDZATUVOTTLMQBOWNMERQTDTUFKZCMTAZMEOJJJOXMERKJHACMTAZATIZOEPPJKIJJNOCFEPLFBUNQHHPPKYYKQAZKTOTIKZNXPGQZQAZKTOTIZYNIUISZIAELMKSJOYUYYTHNEIEOESULOXLUEYGBEUGJLHAJTGGOEOSMJHNFJALFBOHOKAGPTIHKNMKTOUUUMUQUDATUEIRBKYUQTWKJKZNLDRZBLTJJJIDJYSULJARKHKUKBISBLTOJRATIOITHYULFBITOVHRZIAXFDRNIORLZEYUUJGEBEYLNMYCZDITKUXSJEJCFEUGJJOTQEZNORPNUDPNQIAYPEDYPDYTJAIGJYUZBLTJJYYNTMSEJYFNKHOTJARNLHHRXDUPZIALZEDUYAOSBBITKKYLXKZNQEYKKZTOKHWCOLKURTXSKKAGZEPLSYHTMKRKJIIQZDTNHDYXMEIRMROGJYUMHMDNZIOTQEKURTXSKKAGZEPLSYHTMKRKJIIQZDTNROAUYLOTIMDQJYQXZDPUMYMYPYRQNYFNUYUJJEBEOMDNIYUOHYYYJHAOQDRKKZRRJEPCFNRKJUHSJOIRQYDZBKZURKDNNEOYBTKYPEJCMKOAJORKTKJLFIOQHYPNBTAVZEUOBTKKBOWSBKOSKZUOZIHQSLIJJMSURHYZJJZUKOAYKNIYKKZNHMITBTRKBOPNUYPNTTPOKKZNKKZNLKZCFNYTKKQNUYGQJKZNXYDNJYYMEZRJJJOXMERKJVOSJIOSIQAGTZYNZIOYSMOHQDTHMEDWJKIULNOTBCALFBJNTOGSJKZNEEYYKUIXLEUNLNHNMYUOMWHHOOQNUYGQJKZLZJZLOLATSEHQKTAYPYRZJYDNQDTHBTKYKYFGJRRUFEWNTHAXFAHHODUPZMXUMKXUFEOTIMUNQIHGPAACFKATIKIZBTOTIKZNKKZNLORUKMLLFBUUQKZNLEOHIEOHEDRHXOTLMIRKLEAHUYXCZYTGUYXCZYTIUYXCZYTCVJOEBKOHE";
-
+	private static String text2 = "Englishtextsforbeginnerstopracticereadingandcomprehensiononlineandforfree.PracticingyourcomprehensionofwrittenEnglishwillbothimproveyourvocabularyandunderstandingofgrammarandwordorder.Thetextsbelowaredesignedtohelpyoudevelopwhilegivingyouaninstantevaluationofyourprogress.";
 	public static void main(String[] args) {
 		Gene gene = new Gene();
+		Gene gene2 = new Gene();
 		String phrase = "HELLOWORLDFROMALLTHELOVERSOFCHOCOLATEICECREAM";
 		String encodedPhrase = gene.encodeTextGene(phrase);
 //		System.out.println( gene.decodeTextGene(encodedPhrase));
 		GeneticDecryptor decryptor = new GeneticDecryptor();
-		decryptor.decryptText(encodedPhrase);
-		//System.out.println("freq 1: " + EnglishTextAnalyzer.isEnglishTextQuotient(phrase.toLowerCase()));
-		//System.out.println("freq 2: " + EnglishTextAnalyzer.isEnglishTextQuotient(gene.encodeTextGene(phrase).toLowerCase()));
+//		System.out.println(gene.getKey() + " k2: " + gene2.getKey());
+//		Gene g2 = decryptor.crossGenesv2(gene, gene2);
+//		System.out.println("lol" + g2.getKey());
+		decryptor.decryptText(text);
+//		System.out.println("freq 1: " + EnglishTextAnalyzer.isEnglishTextQuotient(text2));
+//		System.out.println("freq 2: " + EnglishTextAnalyzer.isEnglishTextQuotient(gene.encodeTextGene(phrase).toLowerCase()));
 	}
 
 }
