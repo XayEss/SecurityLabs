@@ -17,6 +17,9 @@ public class GeneticMain {
 //		Gene g2 = decryptor.crossGenesv2(gene, gene2);
 //		System.out.println("lol" + g2.getKey());
 		decryptor.decryptText(text);
+//		for(int i = 0; i < 50; i++) {
+//		decryptor.tournament();
+//		}
 //		System.out.println("freq 1: " + EnglishTextAnalyzer.isEnglishTextQuotient(text2));
 //		System.out.println("freq 2: " + EnglishTextAnalyzer.isEnglishTextQuotient(gene.encodeTextGene(phrase).toLowerCase()));
 	}

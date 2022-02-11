@@ -12,22 +12,28 @@ import security.Security.lab1.EnglishTextAnalyzer;
 
 public class GeneticDecryptor {
 
-	private int geneCount = 10;
+	private int geneCount = 1000;
 	private int k = 5;
 	private double p = 0.75;
 	private int tournamentSize = 20;
 	private double mutationChance = 0.20;
 	private double crossoverChance = 1.65;
-	private double elitism = 0.2;
-	private int numberOfGenerations = 2;
+	private double elitism = 0.15;
+	private int numberOfGenerations = 100;
 	private Gene[] genes;
+	private List<Gene> usedGenes;
 	private Gene[] bestGenes;
 	private String encryptedText = "";
 	private Random rand;
 
 	public GeneticDecryptor() {
 		rand = new Random();
-
+		usedGenes = new LinkedList<>();
+		genes = new Gene[geneCount];
+		for (int i = 0; i < geneCount; i++) {
+			genes[i] = new Gene();
+		}
+		calculateFitnessAndSort();
 	}
 
 	public void decryptText(String text) {
@@ -47,12 +53,10 @@ public class GeneticDecryptor {
 		for (int g = 0; g < numberOfGenerations; g++) {
 			calculateFitnessAndSort();
 			saveBestGenes();
-			//tournament();
 			crossover();
 			mutation();
 			elitism();
 		}
-		//tournament();
 		System.out.println("-------------------------------------");
 		calculateFitnessAndSort();
 		printResults();
@@ -64,37 +68,45 @@ public class GeneticDecryptor {
 		}
 		System.out.println(sum / fitArr.size());
 	}
-	
+
 	public void calculateFitnessAndSort() {
 		Arrays.stream(genes).forEach(g -> g.calculateFitness(encryptedText));
-		Arrays.sort(genes, (g1, g2) -> Double.compare(g1.getFitness(), g2.getFitness()));
+		sortGenes(genes);
 	}
-	
+
 	public void sortGenes(Gene[] unsortedGenes) {
 		Arrays.sort(unsortedGenes, (g1, g2) -> Double.compare(g1.getFitness(), g2.getFitness()));
 	}
 
-	public Gene tournament() {	
-		Gene[] contestOrder = new Gene[tournamentSize];
+	public Gene tournament() {
+		Gene[] contestOrder = new Gene[genes.length - usedGenes.size() >= tournamentSize ? tournamentSize : genes.length - usedGenes.size()];
 		int individualIndex;
+		Gene potentialGene;
 		Gene chosenGene = null;
+		// long start = System.nanoTime();
 		for (int i = 0; i < contestOrder.length; i++) {
 			do {
 				individualIndex = rand.nextInt(genes.length);
-			}while(Arrays.asList(contestOrder).contains(genes[individualIndex]));
+				potentialGene = genes[individualIndex];
+			} while (Arrays.asList(contestOrder).contains(potentialGene) || usedGenes.contains(potentialGene));
+			contestOrder[i] = potentialGene;
 		}
+		usedGenes.addAll(Arrays.asList(contestOrder));
+		// System.out.println(Arrays.toString(contestOrder));
 		sortGenes(contestOrder);
 		double chance;
 		double probability;
 		for (int i = 0; i < genes.length; i++) {
 			chance = rand.nextDouble();
 			probability = p * Math.pow(1 - p, i);
-			if(chance<=probability) {
+			if (chance <= probability) {
 				chosenGene = contestOrder[i];
 				break;
 			}
-			
+
 		}
+		// long end = System.nanoTime();
+		// System.out.println(String.format("time: %d", end - start));
 		return chosenGene;
 		// Arrays.stream(genes).map((g) -> g.getFitness()).forEach(System.out::println);
 //		int contestIndex = 0;
@@ -113,27 +125,35 @@ public class GeneticDecryptor {
 //		Arrays.stream(contestOrder).forEach(g -> System.out.println(g.getKey()));
 	}
 
-	public void crossover() { // make that if genes are odd the last one will be removed and size truncated
-		Gene[] childrens = new Gene[genes.length];
+	public void crossover() {
+		int size = genes.length / tournamentSize;
+		Gene[] childrens = new Gene[size % 2 == 0 ? size : size - 1];
 		Gene firstChild;
 		Gene secondChild;
-		for (int i = 0; i < genes.length - 1; i += 2) {
+		Gene firstParent;
+		Gene secondParent;
+		for (int i = 0; i < childrens.length; i += 2) {
 			if (rand.nextDouble() < crossoverChance) {
-				firstChild = crossGenes(genes[i], genes[i + 1]);
-				secondChild = crossGenes(genes[i + 1], genes[i]);
+				// firstChild = crossGenes(genes[i], genes[i + 1]);
+				// secondChild = crossGenes(genes[i + 1], genes[i]);
+				firstParent = tournament();
+				secondParent = tournament();
+				firstChild = crossGenes(firstParent, secondParent);
+				secondChild = crossGenes(secondParent, firstParent);
 			} else {
-				firstChild = genes[i];
-				secondChild = genes[i+1];
+				firstChild = genes[i];	
+				secondChild = genes[i + 1];
 			}
 			childrens[i] = firstChild;
 			childrens[i + 1] = secondChild;
 
 		}
 		genes = childrens;
+		usedGenes.clear();
 		// System.out.println(genes.length);
 	}
 
-	public Gene crossGenes(Gene parent1, Gene parent2) {
+	public Gene crossGenes(Gene parent1, Gene parent2) { // refactor this method
 		int numberOfChromosomes = rand.nextInt(k) + 1;
 		// System.out.println(numberOfChromosomes);
 		String parent1Key = parent1.getKey();
@@ -200,16 +220,17 @@ public class GeneticDecryptor {
 			}
 		}
 	}
-	
+
 	public void saveBestGenes() {
-		int amountOfElitism = (int)Math.floor(genes.length * elitism);
+		int amountOfElitism = (int) Math.floor(genes.length * elitism);
 		bestGenes = Arrays.copyOf(genes, amountOfElitism);
 	}
-	
+
 	public void elitism() {
 		Gene[] newGenes = Arrays.copyOf(genes, genes.length + bestGenes.length);
 		System.arraycopy(bestGenes, 0, newGenes, genes.length, bestGenes.length);
 		genes = newGenes;
+		newGenes = null;
 	}
 
 	public void printResults() {
