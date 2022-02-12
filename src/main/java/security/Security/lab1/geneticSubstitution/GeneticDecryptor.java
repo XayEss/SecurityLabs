@@ -12,16 +12,17 @@ import security.Security.lab1.EnglishTextAnalyzer;
 
 public class GeneticDecryptor {
 
-	private int geneCount = 1000;
+	private int geneCount = 100;
 	private int k = 5;
 	private double p = 0.75;
 	private int tournamentSize = 20;
-	private double mutationChance = 0.20;
-	private double crossoverChance = 1.65;
+	private double mutationChance = 0.2;
+	private double crossoverChance = 0.65;
 	private double elitism = 0.15;
-	private int numberOfGenerations = 100;
+	private int numberOfGenerations = 50;
 	private Gene[] genes;
 	private List<Gene> usedGenes;
+	private List<Gene> aviableGenes;
 	private Gene[] bestGenes;
 	private String encryptedText = "";
 	private Random rand;
@@ -30,12 +31,21 @@ public class GeneticDecryptor {
 		rand = new Random();
 		usedGenes = new LinkedList<>();
 		genes = new Gene[geneCount];
+		//generateGenes(geneCount , "ETAOINSHRDLUCMFWYPVBGKJQXZ");
 		for (int i = 0; i < geneCount; i++) {
 			genes[i] = new Gene();
 		}
 		calculateFitnessAndSort();
 	}
-
+	
+	public void generateGenes(int amount, String seed) {
+		//seed = "ETAOINSHRDLUCMFWYPVBGKJQXZ";
+		for (int i = 0; i < amount; i++) {
+			genes[i] = new Gene(seed);
+			genes[i].mutate();
+		}
+	}
+	
 	public void decryptText(String text) {
 		encryptedText = text;
 		genes = new Gene[geneCount];
@@ -49,13 +59,20 @@ public class GeneticDecryptor {
 			sum += fit;
 		}
 		System.out.println(sum / fitArr.size());
-		printResults();
+		//printResults();
 		for (int g = 0; g < numberOfGenerations; g++) {
+			System.out.println("cal fit");
 			calculateFitnessAndSort();
+			System.out.println("save best");
 			saveBestGenes();
+			System.out.println("crossover");
 			crossover();
+			System.out.println("mutate");
 			mutation();
+			System.out.println("elitism");
+			calculateFitnessAndSort();
 			elitism();
+			System.out.println("end of generation: " + g + " genes size: " + genes.length);
 		}
 		System.out.println("-------------------------------------");
 		calculateFitnessAndSort();
@@ -79,34 +96,44 @@ public class GeneticDecryptor {
 	}
 
 	public Gene tournament() {
-		Gene[] contestOrder = new Gene[genes.length - usedGenes.size() >= tournamentSize ? tournamentSize : genes.length - usedGenes.size()];
+		Gene[] contestOrder = new Gene[tournamentSize];//genes.length - usedGenes.size() >= tournamentSize ? tournamentSize : genes.length - usedGenes.size()];
 		int individualIndex;
 		Gene potentialGene;
 		Gene chosenGene = null;
-		// long start = System.nanoTime();
+		//long start = System.nanoTime();
+		aviableGenes = new LinkedList<>(Arrays.asList(genes));
 		for (int i = 0; i < contestOrder.length; i++) {
-			do {
-				individualIndex = rand.nextInt(genes.length);
-				potentialGene = genes[individualIndex];
-			} while (Arrays.asList(contestOrder).contains(potentialGene) || usedGenes.contains(potentialGene));
+			//do {
+				//individualIndex = rand.nextInt(genes.length);
+				individualIndex = rand.nextInt(aviableGenes.size());
+				potentialGene = aviableGenes.get(individualIndex);
+				aviableGenes.remove(potentialGene);
+//				System.out.println("whilerun");
+//				if(n > tournamentSize * 1000) {
+//					System.out.println("bad");
+//				}
+//				n++;
+//			} while ((Arrays.asList(contestOrder).contains(potentialGene) || usedGenes.contains(potentialGene)) && usedGenes.size() != genes.length);
 			contestOrder[i] = potentialGene;
 		}
-		usedGenes.addAll(Arrays.asList(contestOrder));
+		//usedGenes.addAll(Arrays.asList(contestOrder));
 		// System.out.println(Arrays.toString(contestOrder));
 		sortGenes(contestOrder);
 		double chance;
 		double probability;
-		for (int i = 0; i < genes.length; i++) {
+		for (int i = 0; i < contestOrder.length; i++) {
 			chance = rand.nextDouble();
 			probability = p * Math.pow(1 - p, i);
 			if (chance <= probability) {
 				chosenGene = contestOrder[i];
 				break;
+			} else if(i == contestOrder.length - 1) {
+				chosenGene = contestOrder[0];
 			}
 
 		}
-		// long end = System.nanoTime();
-		// System.out.println(String.format("time: %d", end - start));
+		//long end = System.nanoTime();
+		//System.out.println(String.format("time: %d", end - start));
 		return chosenGene;
 		// Arrays.stream(genes).map((g) -> g.getFitness()).forEach(System.out::println);
 //		int contestIndex = 0;
@@ -126,20 +153,22 @@ public class GeneticDecryptor {
 	}
 
 	public void crossover() {
-		int size = genes.length / tournamentSize;
+		int size = genes.length;
 		Gene[] childrens = new Gene[size % 2 == 0 ? size : size - 1];
 		Gene firstChild;
 		Gene secondChild;
 		Gene firstParent;
 		Gene secondParent;
+		double isCrossover = rand.nextDouble();
 		for (int i = 0; i < childrens.length; i += 2) {
-			if (rand.nextDouble() < crossoverChance) {
-				// firstChild = crossGenes(genes[i], genes[i + 1]);
-				// secondChild = crossGenes(genes[i + 1], genes[i]);
+			if (isCrossover < crossoverChance) {
 				firstParent = tournament();
+				//System.out.println("fP: " + firstParent.getKey());
 				secondParent = tournament();
+				//System.out.println("sP: " + secondParent.getKey());
 				firstChild = crossGenes(firstParent, secondParent);
 				secondChild = crossGenes(secondParent, firstParent);
+				aviableGenes.clear();
 			} else {
 				firstChild = genes[i];	
 				secondChild = genes[i + 1];
@@ -149,7 +178,7 @@ public class GeneticDecryptor {
 
 		}
 		genes = childrens;
-		usedGenes.clear();
+		//usedGenes.clear();
 		// System.out.println(genes.length);
 	}
 
@@ -229,13 +258,15 @@ public class GeneticDecryptor {
 	public void elitism() {
 		Gene[] newGenes = Arrays.copyOf(genes, genes.length + bestGenes.length);
 		System.arraycopy(bestGenes, 0, newGenes, genes.length, bestGenes.length);
+//		Gene[] newGenes = Arrays.copyOf(bestGenes, genes.length);
+//		System.arraycopy(genes, 0, newGenes, bestGenes.length, genes.length - bestGenes.length);
 		genes = newGenes;
 		newGenes = null;
 	}
 
 	public void printResults() {
 		String decoded = "";
-		for (int i = 0; i < genes.length; i++) {
+		for (int i = 0; i < 20; i++) {
 			decoded = genes[i].decodeTextGene(encryptedText);
 			System.out.println("answer: " + decoded);
 			System.out.println(genes[i].getFitness());

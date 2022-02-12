@@ -2,6 +2,7 @@ package security.Security.lab1;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collector;
 
 public class EnglishTextAnalyzer {
 	private static Map<Character, Double> letterFrequency;
@@ -19,7 +20,14 @@ public class EnglishTextAnalyzer {
 	private static final double uProbability = 2.7822893;
 	private static final double maxThreshold = 1.8;
 	private static final double minThreshold = 0.5;
+	
+	private static final String lettersByFrequency = "etaoinshrdlucmfwypvbgkjqxz";
+	private static final double[] letterFrequencies = new double[] {12.813865, 9.1357551, 8.2389258, 7.5731132, 7, 6.8084376,  6.3827211, 6.1476691, 6.0397268, 4.2904556, 4.0604477, 2.7822893, 2.8, 2.5, 2.2, 2.4, 2, 1.9, 0.98, 1.5, 2, 0.77, 0.15, 0.095, 0.15, 0.074 };
 
+	{
+		addFrequencies();
+	}
+	
 	public static boolean isEnglishText(String text) {
 		boolean isEnglish = false;
 		double length = text.length();
@@ -55,6 +63,13 @@ public class EnglishTextAnalyzer {
 
 		//System.out.println(e + " " + t + " " + a + " " + o + " ");
 		return isEnglish;
+	}
+	
+	public void addFrequencies() {
+		letterFrequency = new HashMap<>();
+		for(int i = 0; i < letterFrequencies.length; i++) {
+			letterFrequency.put(lettersByFrequency.charAt(i), letterFrequencies[i]);
+		}
 	}
 
 	public static boolean isEnglishTextRating(String text) {
@@ -135,10 +150,36 @@ public class EnglishTextAnalyzer {
 		return fittingQuotient(new double[] {e,t,a,o,i,n,s,h,r,d,l,u}, frequencies);
 	}
 	
+	public static double isEnglishTextQuotientV2(String text) {
+		Map<Character, Double> charToFreq = new HashMap<>();
+		char[] characters = new char[lettersByFrequency.length()];
+		double[] frequencies = new double[characters.length];
+		double[] frequenciesNominal = new double[characters.length];
+		String textBuilder = text.toLowerCase();
+		for (char c : lettersByFrequency.toCharArray()) {
+			charToFreq.putIfAbsent(c, (double)text.chars().filter(ch -> ch == c).count());
+		}
+		int in = 0;
+		for(Map.Entry<Character, Double> entry: charToFreq.entrySet()) {
+			entry.setValue((entry.getValue()/text.length()) * 100);
+		}
+		return  fittingQuotient(charToFreq);
+	}
+	
+	public static double fittingQuotient(Map<Character, Double> charToFrequency) {
+		double quotient =0;
+		for(Map.Entry<Character, Double> entry: charToFrequency.entrySet()) {
+			quotient += Math.abs( letterFrequency.get(entry.getKey()) - entry.getValue());
+		}
+		return quotient/26;
+		
+	}
+	
 	public static double fittingQuotient(double[] frequency, double[] nominalFrequency) {
 		double quotient =0;
 		for(int i = 0; i < frequency.length; i++) {
-			quotient += nominalFrequency[i] - frequency[i];
+			//quotient += nominalFrequency[i] - frequency[i];
+			quotient += Math.abs(nominalFrequency[i] - frequency[i]);
 		}
 		return quotient/26;
 		
