@@ -96,8 +96,8 @@ public class Part3 {
 						// System.out.println("m: " + m + "n: " + m%3);
 					}
 					// if(EnglishTextAnalyzer.isEnglishText(text.toString())) {
-					if (text.toString().contains("Write a code")) {
-					double quotient = EnglishTextAnalyzer.isEnglishTextQuotient(text.toString());
+					//if (text.toString().contains("Write a code")) {
+					double quotient = EnglishTextAnalyzer.isEnglishTextQuotientV2(text.toString());
 					if (quotient <= nearestQuotient) {
 						nearestQuotient = quotient;
 						result = text.toString();
@@ -107,7 +107,7 @@ public class Part3 {
 						System.out.println(quotient);
 
 					}
-					 }
+					// }
 					text.delete(0, text.length());
 				}
 			}

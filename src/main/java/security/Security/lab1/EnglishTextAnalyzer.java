@@ -20,14 +20,21 @@ public class EnglishTextAnalyzer {
 	private static final double uProbability = 2.7822893;
 	private static final double maxThreshold = 1.8;
 	private static final double minThreshold = 0.5;
-	
+
 	private static final String lettersByFrequency = "etaoinshrdlucmfwypvbgkjqxz";
-	private static final double[] letterFrequencies = new double[] {12.813865, 9.1357551, 8.2389258, 7.5731132, 7, 6.8084376,  6.3827211, 6.1476691, 6.0397268, 4.2904556, 4.0604477, 2.7822893, 2.8, 2.5, 2.2, 2.4, 2, 1.9, 0.98, 1.5, 2, 0.77, 0.15, 0.095, 0.15, 0.074 };
+	// private static final double[] letterFrequencies = new double[] {12.813865,
+	// 9.1357551, 8.2389258, 7.5731132, 6.1476691, 6.8084376, 6.3827211, 6.1476691,
+	// 6.0397268, 4.2904556, 4.0604477, 2.7822893, 2.8, 2.5, 2.2, 2.4, 2, 1.9, 0.98,
+	// 1.5, 2, 0.77, 0.15, 0.095, 0.15, 0.074 };
+	private static final double[] letterFrequencies = new double[] { 12.813865, 9.1357551, 8.2389258, 7.5731132,
+			6.1476691, 6.8084376, 6.3827211, 6.1476691, 6.0397268, 4.2904556, 4.0604477, 2.7822893, 2.8065007,
+			2.4271893, 2.2476217, 2.3807842, 1.9913847, 1.9459884, 0.9866131, 1.5051398, 2.0327458, 0.7787989,
+			0.1543474, 0.0958366, 0.1513210, 0.0746517 };
 
 	{
 		addFrequencies();
 	}
-	
+
 	public static boolean isEnglishText(String text) {
 		boolean isEnglish = false;
 		double length = text.length();
@@ -61,13 +68,13 @@ public class EnglishTextAnalyzer {
 			}
 		}
 
-		//System.out.println(e + " " + t + " " + a + " " + o + " ");
+		// System.out.println(e + " " + t + " " + a + " " + o + " ");
 		return isEnglish;
 	}
-	
-	public void addFrequencies() {
+
+	public static void addFrequencies() {
 		letterFrequency = new HashMap<>();
-		for(int i = 0; i < letterFrequencies.length; i++) {
+		for (int i = 0; i < letterFrequencies.length; i++) {
 			letterFrequency.put(lettersByFrequency.charAt(i), letterFrequencies[i]);
 		}
 	}
@@ -118,11 +125,13 @@ public class EnglishTextAnalyzer {
 //		System.out.println(rating);
 		return isEnglish;
 	}
-	
+
 	public static double isEnglishTextQuotient(String text) {
 		double length = text.length();
-		double[] frequencies = new double[] {eProbability, tProbability, aProbability, oProbability, iProbability, nProbability, sProbability, hProbability, rProbability, dProbability, lProbability, uProbability};
-		//Map<Character, Double> letterFrequencies = new HashMap<>() {'e' : eProbability};
+		double[] frequencies = new double[] { eProbability, tProbability, aProbability, oProbability, iProbability,
+				nProbability, sProbability, hProbability, rProbability, dProbability, lProbability, uProbability };
+		// Map<Character, Double> letterFrequencies = new HashMap<>() {'e' :
+		// eProbability};
 		long letterEAmount = text.chars().map(Character::toLowerCase).filter(ch -> ch == 'e').count();
 		long letterTAmount = text.chars().map(Character::toLowerCase).filter(ch -> ch == 't').count();
 		long letterAAmount = text.chars().map(Character::toLowerCase).filter(ch -> ch == 'a').count();
@@ -147,44 +156,47 @@ public class EnglishTextAnalyzer {
 		double d = letterDAmount / length * 100;
 		double l = letterLAmount / length * 100;
 		double u = letterUAmount / length * 100;
-		return fittingQuotient(new double[] {e,t,a,o,i,n,s,h,r,d,l,u}, frequencies);
+		return fittingQuotient(new double[] { e, t, a, o, i, n, s, h, r, d, l, u }, frequencies);
 	}
-	
+
 	public static double isEnglishTextQuotientV2(String text) {
+		if (letterFrequency == null) {
+			addFrequencies();
+		}
 		Map<Character, Double> charToFreq = new HashMap<>();
 		char[] characters = new char[lettersByFrequency.length()];
 		double[] frequencies = new double[characters.length];
 		double[] frequenciesNominal = new double[characters.length];
-		String textBuilder = text.toLowerCase();
+		text = text.toLowerCase();
 		for (char c : lettersByFrequency.toCharArray()) {
-			charToFreq.putIfAbsent(c, (double)text.chars().filter(ch -> ch == c).count());
+			charToFreq.putIfAbsent(c, (double) text.chars().filter(ch -> ch == c).count());
 		}
 		int in = 0;
-		for(Map.Entry<Character, Double> entry: charToFreq.entrySet()) {
-			entry.setValue((entry.getValue()/text.length()) * 100);
+		for (Map.Entry<Character, Double> entry : charToFreq.entrySet()) {
+			entry.setValue((entry.getValue() / text.length()) * 100);
 		}
-		return  fittingQuotient(charToFreq);
+		return fittingQuotient(charToFreq);
 	}
-	
+
 	public static double fittingQuotient(Map<Character, Double> charToFrequency) {
-		double quotient =0;
-		for(Map.Entry<Character, Double> entry: charToFrequency.entrySet()) {
-			quotient += Math.abs( letterFrequency.get(entry.getKey()) - entry.getValue());
+		double quotient = 0;
+		for (Map.Entry<Character, Double> entry : charToFrequency.entrySet()) {
+			quotient += Math.abs(letterFrequency.get(entry.getKey()) - entry.getValue());
 		}
-		return quotient/26;
-		
+		return quotient / 26;
+
 	}
-	
+
 	public static double fittingQuotient(double[] frequency, double[] nominalFrequency) {
-		double quotient =0;
-		for(int i = 0; i < frequency.length; i++) {
-			//quotient += nominalFrequency[i] - frequency[i];
+		double quotient = 0;
+		for (int i = 0; i < frequency.length; i++) {
+			// quotient += nominalFrequency[i] - frequency[i];
 			quotient += Math.abs(nominalFrequency[i] - frequency[i]);
 		}
-		return quotient/26;
-		
+		return quotient / 26;
+
 	}
-	
+
 	public static void createDictionary() {
 		letterFrequency.put('e', 12.813865);
 		letterFrequency.put('t', 9.1357551);
@@ -194,10 +206,8 @@ public class EnglishTextAnalyzer {
 		letterFrequency.put('n', 6.8084376);
 		letterFrequency.put('s', 6.3827211);
 		letterFrequency.put('r', 6.0397268);
-		
+
 	}
-	
-	
 
 	public static boolean isInThreshold(double occurance, double probability, double threshold) {
 		boolean inThreshold = false;
