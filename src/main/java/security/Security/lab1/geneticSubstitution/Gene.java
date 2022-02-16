@@ -52,7 +52,7 @@ public class Gene {
 
 	public double calculateFitness(String text) {
 		//return fitness = NGramTextAnalyzer.analyzeText(encodeTextGene(text));
-		return fitness = EnglishTextAnalyzer.isEnglishTextQuotientV2(encodeTextGene(text));
+		return fitness = EnglishTextAnalyzer.isEnglishTextQuotientV2(decodeTextGene(text));
 	}
 
 	public void mutate() {

@@ -160,7 +160,7 @@ public class EnglishTextAnalyzer {
 	}
 
 	public static double isEnglishTextQuotientV2(String text) {
-		if (letterFrequency == null) {
+		if (letterFrequency == null || letterFrequency.isEmpty()) {
 			addFrequencies();
 		}
 		Map<Character, Double> charToFreq = new HashMap<>();

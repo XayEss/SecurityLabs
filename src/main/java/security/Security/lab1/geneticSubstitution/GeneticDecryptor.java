@@ -12,14 +12,14 @@ import security.Security.lab1.EnglishTextAnalyzer;
 
 public class GeneticDecryptor {
 
-	private int geneCount = 2000;
-	private int k = 6;
-	private double p = 0.55;
+	private int geneCount = 1000;
+	private int k = 5;
+	private double p = 0.75;
 	private int tournamentSize = 20;
-	private double mutationChance = 0.6;
+	private double mutationChance = 0.5;
 	private double crossoverChance = 0.65;
 	private double elitism = 0.15;
-	private int numberOfGenerations = 1200;
+	private int numberOfGenerations = 5000;
 	private Gene[] genes;
 	private List<Gene> usedGenes;
 	private List<Gene> aviableGenes;
@@ -50,10 +50,10 @@ public class GeneticDecryptor {
 
 	public void decryptText(String text) {
 		encryptedText = text;
-		genes = new Gene[geneCount];
-		for (int i = 0; i < geneCount; i++) {
-			genes[i] = new Gene();
-		}
+		//genes = new Gene[geneCount];
+//		for (int i = 0; i < geneCount; i++) {
+//			genes[i] = new Gene();
+//		}
 		List<Double> fitArr = Arrays.stream(genes).map(g -> g.calculateFitness(encryptedText))
 				.collect(Collectors.toList());
 		double sum = 0;
@@ -64,6 +64,7 @@ public class GeneticDecryptor {
 		// calculateFitnessAndSort();
 		// printResults();
 		for (int g = 0; g < numberOfGenerations; g++) {
+			//printResults();
 			System.out.println("cal fit");
 			calculateFitnessAndSort();
 			System.out.println("save best");
@@ -73,8 +74,8 @@ public class GeneticDecryptor {
 			System.out.println("mutate");
 			mutation();
 			System.out.println("elitism");
-			//calculateFitnessAndSort();
-			//elitism();
+			calculateFitnessAndSort();
+			elitism();
 			System.out.println("end of generation: " + g + " genes size: " + genes.length);
 		}
 		System.out.println("-------------------------------------");
@@ -143,15 +144,15 @@ public class GeneticDecryptor {
 		double isCrossover = rand.nextDouble();
 		if (isCrossover < crossoverChance) {
 			for (int i = 0; i < childrens.length; i += 2) {
-				//List<Gene> childrenList = Arrays.asList(childrens);
-				//do {
-				//	do {
+				List<Gene> childrenList = Arrays.asList(childrens);
+				do {
+					do {
 						firstParent = tournament();
 						secondParent = tournament();
-					//} while (firstParent.checkParent(secondParent));
+					} while (firstParent.checkParent(secondParent));
 					firstChild = crossGenesPBX(firstParent, secondParent);
 					secondChild = crossGenesPBX(secondParent, firstParent);
-				//} while (childrenList.contains(secondParent) || childrenList.contains(firstParent));
+				} while (childrenList.contains(secondParent) || childrenList.contains(firstParent));
 				childrens[i] = firstChild;
 				childrens[i + 1] = secondChild;
 				aviableGenes.clear();
@@ -283,11 +284,11 @@ public class GeneticDecryptor {
 
 	public void printResults() {
 		String decoded = "";
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			decoded = genes[i].decodeTextGene(encryptedText);
 			System.out.println("answer: " + decoded);
 			System.out.println("key: " + genes[i].getKey());
-			System.out.println(genes[i].getFitness());
+			System.out.println(genes[i].calculateFitness(encryptedText));
 		}
 	}
 
