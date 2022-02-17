@@ -15,11 +15,11 @@ public class GeneticDecryptor {
 	private int geneCount = 1000;
 	private int k = 5;
 	private double p = 0.75;
-	private int tournamentSize = 20;
-	private double mutationChance = 0.5;
+	private int tournamentSize = 20;	
+	private double mutationChance = 0.2;
 	private double crossoverChance = 0.65;
 	private double elitism = 0.15;
-	private int numberOfGenerations = 5000;
+	private int numberOfGenerations = 400;
 	private Gene[] genes;
 	private List<Gene> usedGenes;
 	private List<Gene> aviableGenes;
@@ -32,7 +32,7 @@ public class GeneticDecryptor {
 		usedGenes = new LinkedList<>();
 		genes = new Gene[geneCount];
 		// generateGenes(geneCount , "TAOINESHRDLUCMFWYPVBGKJQXZ");
-		// generateGenes(geneCount , "WPVBDKJLSNTFCIAMUYGORZXQEH");
+		//generateGenes(geneCount , "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 		for (int i = 0; i < geneCount; i++) {
 			genes[i] = new Gene();
 		}
@@ -50,7 +50,7 @@ public class GeneticDecryptor {
 
 	public void decryptText(String text) {
 		encryptedText = text;
-		//genes = new Gene[geneCount];
+//		genes = new Gene[geneCount];
 //		for (int i = 0; i < geneCount; i++) {
 //			genes[i] = new Gene();
 //		}
@@ -284,7 +284,7 @@ public class GeneticDecryptor {
 
 	public void printResults() {
 		String decoded = "";
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 100; i++) {
 			decoded = genes[i].decodeTextGene(encryptedText);
 			System.out.println("answer: " + decoded);
 			System.out.println("key: " + genes[i].getKey());
