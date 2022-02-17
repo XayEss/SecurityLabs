@@ -21,7 +21,6 @@ public class GeneticDecryptor {
 	private double elitism = 0.15;
 	private int numberOfGenerations = 400;
 	private Gene[] genes;
-	private List<Gene> usedGenes;
 	private List<Gene> aviableGenes;
 	private Gene[] bestGenes;
 	private String encryptedText = "";
@@ -29,17 +28,11 @@ public class GeneticDecryptor {
 
 	public GeneticDecryptor() {
 		rand = new Random();
-		usedGenes = new LinkedList<>();
-		genes = new Gene[geneCount];
-		// generateGenes(geneCount , "TAOINESHRDLUCMFWYPVBGKJQXZ");
-		//generateGenes(geneCount , "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
-		for (int i = 0; i < geneCount; i++) {
-			genes[i] = new Gene();
-		}
 	}
 
 	public void generateGenes(int amount, String seed) {
 		// seed = "ETAOINSHRDLUCMFWYPVBGKJQXZ";
+		genes = new Gene[geneCount];
 		for (int i = 0; i < amount; i++) {
 			genes[i] = new Gene(seed);
 			genes[i].mutate();
@@ -47,13 +40,17 @@ public class GeneticDecryptor {
 			// genes[i].mutate();
 		}
 	}
+	
+	public void generateGenes() {
+		genes = new Gene[geneCount];
+		for (int i = 0; i < geneCount; i++) {
+			genes[i] = new Gene();
+		}
+	}
 
 	public void decryptText(String text) {
 		encryptedText = text;
-//		genes = new Gene[geneCount];
-//		for (int i = 0; i < geneCount; i++) {
-//			genes[i] = new Gene();
-//		}
+		generateGenes();
 		List<Double> fitArr = Arrays.stream(genes).map(g -> g.calculateFitness(encryptedText))
 				.collect(Collectors.toList());
 		double sum = 0;
@@ -64,7 +61,6 @@ public class GeneticDecryptor {
 		// calculateFitnessAndSort();
 		// printResults();
 		for (int g = 0; g < numberOfGenerations; g++) {
-			//printResults();
 			System.out.println("cal fit");
 			calculateFitnessAndSort();
 			System.out.println("save best");
@@ -100,8 +96,7 @@ public class GeneticDecryptor {
 	}
 
 	public Gene tournament() {
-		Gene[] contestOrder = new Gene[tournamentSize];// genes.length - usedGenes.size() >= tournamentSize ?
-														// tournamentSize : genes.length - usedGenes.size()];
+		Gene[] contestOrder = new Gene[tournamentSize];												
 		int individualIndex;
 		Gene potentialGene;
 		Gene chosenGene = null;
