@@ -7,7 +7,7 @@ import org.apache.commons.math3.random.MersenneTwister;
 public class NumberPredictor {
 
 	// private static final double M = (long) (Math.pow(2, 32));
-	private static final BigInteger M = BigInteger.valueOf((long) Math.pow(2, 32));
+	private static final BigInteger M  = BigInteger.valueOf((long) Math.pow(2, 32));
 	private static final int betAmount = 100;
 	private Account player;
 
@@ -23,8 +23,6 @@ public class NumberPredictor {
 		BigInteger number2 = BigInteger.valueOf(gamer.playLcg());
 		BigInteger number3 = BigInteger.valueOf(gamer.playLcg());
 		System.out.println(number1 + " " + number2 + " " + number3);
-//		double a = ((number3-number2) * ModuloInverser.modInverse((number2 - number1), (int) M) % M);
-//		double c = ((number2 - number1 * a) % M);
 		System.out.println("numb1: " + number2.subtract(number1));
 		System.out.println("modI: " + number2.subtract(number1).modInverse(M));
 		BigInteger a = (number3.subtract(number2).multiply(number2.subtract(number1).modInverse(M))).mod(M);
