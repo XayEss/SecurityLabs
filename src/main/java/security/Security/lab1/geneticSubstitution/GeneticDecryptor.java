@@ -16,10 +16,10 @@ public class GeneticDecryptor {
 	private int k = 5;
 	private double p = 0.75;
 	private int tournamentSize = 20;	
-	private double mutationChance = 0.2;
+	private double mutationChance = 0.3;
 	private double crossoverChance = 0.65;
 	private double elitism = 0.15;
-	private int numberOfGenerations = 400;
+	private int numberOfGenerations = 300;
 	private Gene[] genes;
 	private List<Gene> aviableGenes;
 	private Gene[] bestGenes;

@@ -8,8 +8,8 @@ public class Lab3Main {
 
 	public static void main(String[] args) {
 		NumberPredictor predictor = new NumberPredictor();
-		//predictor.predictLcg();
-		predictor.predictMarsenneTwister();
+		predictor.predictLcg();
+		//predictor.predictMarsenneTwister();
 		//findRealSeed(1644157926, 2125782690);
 	}
 	

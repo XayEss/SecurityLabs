@@ -51,17 +51,17 @@ public class Salsa20MultipleTimesDecoder {
 		String[] lines = codedLines.split("\n");
 		StringBuilder word = new StringBuilder();
 		//manual();
-		getKey("lol");
-		// resultLines = new StringBuilder[codedLines.length()];
-		// possibleLines = new StringBuilder[codedLines.length()];
+		//getKey("lol");
+//		 resultLines = new StringBuilder[codedLines.length()];
+//		 possibleLines = new StringBuilder[codedLines.length()];
 //		String linesXoredHex = byteXorHexLines(lines[0], lines[2]);
 //		System.out.println("result:" + linesXoredHex);
 //		String cribSearched = byteXorHexLines(lines[0],lines[1]);
 //		cribSearched = byteXorHexLines(cribSearched,lines[2]);
 //		System.out.println(convertHexToString(hexXorStrings(cribSearched,convertStringToHex("the "))));
-
+//
 //		for (int j = 0; j < 1 /* lines.length - 1*/; j++) {
-//			resultLines[j] = "";
+//			resultLines[j] = " ";
 //			for (int k = 1; k < lines.length; k++) {
 //				System.out.println(j + " " + k);
 //				String s = (hexXorLines(lines[j], lines[k]));
@@ -80,95 +80,94 @@ public class Salsa20MultipleTimesDecoder {
 //						}
 //
 //					}
-		// System.out.println(resultLines[j]);
-		// System.out.println(possibleLines[k]);
-		// }
+//		 System.out.println(resultLines[j]);
+//		 System.out.println(possibleLines[k]);
+//		 }
 //			}
-		// char[] cribs = new char[lines]
-		// Array
-		// String
+//		 char[] cribs = new char[lines];
+
 		/*
-		 * Map<Integer, HashMap<Character, Integer>> wordIndexes = new HashMap<>();
-		 * System.out.println("space check:" + convertHexToString(hexXorLines(lines[0],
-		 * lines[1]))); //String about = String aboba = hexXorLines(lines[0], lines[2]);
-		 * System.out.println(convertHexToString(aboba)); StringBuilder result0 = new
-		 * StringBuilder(" ".repeat(48)); int[] ind = new int[result0.length()]; for(int
-		 * f = 0; f < lines.length; f++) { String line =
-		 * convertHexToString(hexXorLines(lines[0], lines[f])); for(int n = 0; n <
-		 * line.length(); n++) { wordIndexes.put(n, new HashMap<>());
-		 * if(checkChar(line.charAt(n))) {
-		 * if(wordIndexes.get(n).containsKey(line.charAt(n))){
-		 * wordIndexes.get(n).put(line.charAt(n),
-		 * wordIndexes.get(n).get(line.charAt(n))+1); } else {
-		 * wordIndexes.get(n).put(line.charAt(n), 1); } result0.replace(n, n + 1,
-		 * String.valueOf(Character.toLowerCase(line.charAt(n)))); } } } for (int i = 0;
-		 * i < ind.length; i++) { for (Entry<Character, Integer> map :
-		 * wordIndexes.get(i).entrySet()) { System.out.println(map.getKey() + " " +
-		 * map.getValue());
-		 * 
-		 * } } System.out.println(result0.toString()); resultLines[0] = new
-		 * StringBuilder(); possibleLines[1] = new StringBuilder(); for (int j = 2; j <
-		 * lines.length; j++) { resultLines[j] = new StringBuilder(); possibleLines[j] =
-		 * new StringBuilder(); String crib = " the "; //String s =
-		 * convertHexToString(hexXorLines(lines[0], lines[j])); String s =
-		 * hexXorLines(lines[0], lines[j]); // for (String crib : commonUsedWords) { int
-		 * i = 0; while (i < s.length() - crib.length() * 2) { String result =
-		 * convertHexToString(hexXorStrings(s, convertStringToHex(i==0?
-		 * crib.substring(1, crib.length()) : crib), i)); if (compareRegex(result)) {
-		 * resultLines[j].append(result); possibleLines[j].append(crib);
-		 * //resultLines[j].insert(i, result); //possibleLines[j].insert(i, crib); i +=
-		 * crib.length() * 2; } else { if(i == s.length() - crib.length() * 2 - 2) {
-		 * resultLines[j].append(" ".repeat(crib.length()*2));
-		 * possibleLines[j].append(" ".repeat(crib.length()*2)); }else {
-		 * resultLines[j].append(" "); possibleLines[j].append(" "); }
-		 * //resultLines[j].insert(i, " "); //possibleLines[j].insert(i, " "); i+=2; }
-		 * // System.out.println(i); // System.out.println("line: " + resultLines[j]);
-		 * 
-		 * } // } System.out.println("line: " + resultLines[j]);
-		 * key.append(hexXorLines(lines[0],
-		 * convertStringToHex(resultLines[j].toString()))); System.out.println("key: " +
-		 * key.toString()); String t2xKey = convertHexToString(hexXorLines(lines[j],
-		 * key.toString())); String t1xKey = convertHexToString(hexXorLines(lines[0],
-		 * key.toString())); String[] t2xDivided = t2xKey.split("\s+"); String[]
-		 * t1xDivided = t1xKey.split("\s+"); // for (String string : t2xDivided) {
-		 * char[] chrs = t2xKey.toCharArray(); // for (int c = 0; c < chrs.length && c <
-		 * possibleLines[j].length(); c++) { // if
-		 * (possibleLines[j].toString().charAt(c) != chrs[c]) { // // t2xKey =
-		 * t2xKey.replace(chrs[c], ' '); // // t2xKey =
-		 * t2xKey.replaceFirst(String.valueOf(chrs[c]), " "); // String replacement =
-		 * String.valueOf(resultLines[j].charAt(c)); // String reverseReplacement =
-		 * String.valueOf(possibleLines[j].charAt(c)); // resultLines[j].replace(c, c +
-		 * 1, reverseReplacement); // possibleLines[j].replace(c, c + 1, replacement);
-		 * // } // } System.out.println("reverse: " +
-		 * convertHexToString(hexXorLines(lines[j], key.toString()))); String ky1 =
-		 * hexXorLines(lines[0], convertStringToHex(resultLines[j].toString()));
-		 * key.replace(i, key.length(), ky1); System.out.println("possible: " +
-		 * possibleLines[j]); System.out.println("reverse: " +
-		 * convertHexToString(hexXorLines(lines[j], key.toString())));
-		 * System.out.println("t2xkey: " + t2xKey); System.out.println("resultLines: " +
-		 * resultLines[j]); for (int l = 1; l < lines.length; l++) { String lol =
-		 * convertHexToString(hexXorLines(lines[l], ky1)); System.out.println("ol: " +
-		 * lol); System.out.println("lines to divide: " + resultLines[j] + "l: " +
-		 * resultLines[j].length()); System.out.println("lle: " + (lol)); int start =
-		 * -1; int end = 0; for (int c = 0; c < resultLines[j].length() && c <
-		 * lol.length(); c++) { if (resultLines[j].charAt(c) != ' ' && start == -1) {
-		 * start = c; } else if (resultLines[j].charAt(c) == ' ' && start != -1) {
-		 * 
-		 * end = c + 1; if(compareRegex(lol.substring(start, end))) {
-		 * System.out.print(lol.substring(start, end) + "---" +
-		 * resultLines[j].substring(start, end));
-		 * 
-		 * }else {
-		 * 
-		 * System.out.print(lol.substring(start, end) + "---" +
-		 * resultLines[j].substring(start, end)); //resultLines[j].replace(start, end,
-		 * " ".repeat(end-start)); } start = -1; } //System.out.println("c: " + c); }
-		 * System.out.println("new Line " + resultLines[j].toString()); } String newKey
-		 * = hexXorLines(convertStringToHex(resultLines[j].toString()), lines[0]);
-		 * System.out.println("line 1: " + convertHexToString(hexXorLines(newKey,
-		 * lines[1])));
-		 * 
-		 * }
+		  Map<Integer, HashMap<Character, Integer>> wordIndexes = new HashMap<>();
+		  System.out.println("space check:" + convertHexToString(hexXorLines(lines[0],
+		  lines[1]))); //String about = String aboba = hexXorLines(lines[0], lines[2]);
+		   System.out.println(convertHexToString(aboba)); StringBuilder result0 = new
+		   StringBuilder(" ".repeat(48)); int[] ind = new int[result0.length()]; for(int
+		   f = 0; f < lines.length; f++) { String line =
+		   convertHexToString(hexXorLines(lines[0], lines[f])); for(int n = 0; n <
+		   line.length(); n++) { wordIndexes.put(n, new HashMap<>());
+		   if(checkChar(line.charAt(n))) {
+		   if(wordIndexes.get(n).containsKey(line.charAt(n))){
+		   wordIndexes.get(n).put(line.charAt(n),
+		   wordIndexes.get(n).get(line.charAt(n))+1); } else {
+		   wordIndexes.get(n).put(line.charAt(n), 1); } result0.replace(n, n + 1,
+		   String.valueOf(Character.toLowerCase(line.charAt(n)))); } } } for (int i = 0;
+		   i < ind.length; i++) { for (Entry<Character, Integer> map :
+		   wordIndexes.get(i).entrySet()) { System.out.println(map.getKey() + " " +
+		   map.getValue());
+		   
+		   } } System.out.println(result0.toString()); resultLines[0] = new
+		   StringBuilder(); possibleLines[1] = new StringBuilder(); for (int j = 2; j <
+		   lines.length; j++) { resultLines[j] = new StringBuilder(); possibleLines[j] =
+		   new StringBuilder(); String crib = " the "; //String s =
+		   convertHexToString(hexXorLines(lines[0], lines[j])); String s =
+		   hexXorLines(lines[0], lines[j]); // for (String crib : commonUsedWords) { int
+		   i = 0; while (i < s.length() - crib.length()   2) { String result =
+		   convertHexToString(hexXorStrings(s, convertStringToHex(i==0?
+		   crib.substring(1, crib.length()) : crib), i)); if (compareRegex(result)) {
+		   resultLines[j].append(result); possibleLines[j].append(crib);
+		   //resultLines[j].insert(i, result); //possibleLines[j].insert(i, crib); i +=
+		   crib.length()   2; } else { if(i == s.length() - crib.length()   2 - 2) {
+		   resultLines[j].append(" ".repeat(crib.length() 2));
+		   possibleLines[j].append(" ".repeat(crib.length() 2)); }else {
+		   resultLines[j].append(" "); possibleLines[j].append(" "); }
+		   //resultLines[j].insert(i, " "); //possibleLines[j].insert(i, " "); i+=2; }
+		   // System.out.println(i); // System.out.println("line: " + resultLines[j]);
+		   
+		   } // } System.out.println("line: " + resultLines[j]);
+		   key.append(hexXorLines(lines[0],
+		   convertStringToHex(resultLines[j].toString()))); System.out.println("key: " +
+		   key.toString()); String t2xKey = convertHexToString(hexXorLines(lines[j],
+		   key.toString())); String t1xKey = convertHexToString(hexXorLines(lines[0],
+		   key.toString())); String[] t2xDivided = t2xKey.split("\s+"); String[]
+		   t1xDivided = t1xKey.split("\s+"); // for (String string : t2xDivided) {
+		   char[] chrs = t2xKey.toCharArray(); // for (int c = 0; c < chrs.length && c <
+		   possibleLines[j].length(); c++) { // if
+		   (possibleLines[j].toString().charAt(c) != chrs[c]) { // // t2xKey =
+		   t2xKey.replace(chrs[c], ' '); // // t2xKey =
+		   t2xKey.replaceFirst(String.valueOf(chrs[c]), " "); // String replacement =
+		   String.valueOf(resultLines[j].charAt(c)); // String reverseReplacement =
+		   String.valueOf(possibleLines[j].charAt(c)); // resultLines[j].replace(c, c +
+		   1, reverseReplacement); // possibleLines[j].replace(c, c + 1, replacement);
+		   // } // } System.out.println("reverse: " +
+		   convertHexToString(hexXorLines(lines[j], key.toString()))); String ky1 =
+		  hexXorLines(lines[0], convertStringToHex(resultLines[j].toString()));
+		  key.replace(i, key.length(), ky1); System.out.println("possible: " +
+		  possibleLines[j]); System.out.println("reverse: " +
+		  convertHexToString(hexXorLines(lines[j], key.toString())));
+		  System.out.println("t2xkey: " + t2xKey); System.out.println("resultLines: " +
+		  resultLines[j]); for (int l = 1; l < lines.length; l++) { String lol =
+		  convertHexToString(hexXorLines(lines[l], ky1)); System.out.println("ol: " +
+		  lol); System.out.println("lines to divide: " + resultLines[j] + "l: " +
+		  resultLines[j].length()); System.out.println("lle: " + (lol)); int start =
+		  -1; int end = 0; for (int c = 0; c < resultLines[j].length() && c <
+		  lol.length(); c++) { if (resultLines[j].charAt(c) != ' ' && start == -1) {
+		  start = c; } else if (resultLines[j].charAt(c) == ' ' && start != -1) {
+		  
+		  end = c + 1; if(compareRegex(lol.substring(start, end))) {
+		  System.out.print(lol.substring(start, end) + "---" +
+		  resultLines[j].substring(start, end));
+		  
+		  }else {
+		  
+		  System.out.print(lol.substring(start, end) + "---" +
+		  resultLines[j].substring(start, end)); //resultLines[j].replace(start, end,
+		  " ".repeat(end-start)); } start = -1; } //System.out.println("c: " + c); }
+		  System.out.println("new Line " + resultLines[j].toString()); } String newKey
+		  = hexXorLines(convertStringToHex(resultLines[j].toString()), lines[0]);
+		  System.out.println("line 1: " + convertHexToString(hexXorLines(newKey,
+		  lines[1])));
+		  
+		  }
 		 */
 		for (String string : lines) {
 			String result = convertHexToString(hexXorLines(string, getKey("jjj")));
