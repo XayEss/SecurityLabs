@@ -27,13 +27,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class AESHandler implements EncryptionHandler{
 	
+	private final GoogleKMS kms;
+
+	public AESHandler(GoogleKMS kms) {
+		this.kms = kms;
+	}
+
 	private static final String KEY_LOCATION = "C:/Users/alexs/eclipse-workspace/SpringWeb/src/main/webapp/WEB-INF/configs/notakey.conf";
 	private static final int BLOCK_SIZE = 128;
 	
 	@Override
 	public String encrypt(String data, byte[] iv) {
 		String encrypted = null;
-		byte[] keyBytes = takeKeyOut();
+		byte[] keyBytes = decryptKeyKMS(takeKeyOut());
 		encrypted = encryptAES(data, getKey(keyBytes), iv);
 		return encrypted;
 	}
@@ -41,11 +47,15 @@ public class AESHandler implements EncryptionHandler{
 	@Override
 	public String decrypt(String data, byte[] iv) {
 		String decrypted = null;
-		byte[] keyBytes = takeKeyOut();
+		byte[] keyBytes = decryptKeyKMS(takeKeyOut());
 		decrypted = decryptAES(data, getKey(keyBytes), iv);
 		return decrypted;
 	}
 	
+	public byte[] decryptKeyKMS(byte[] baseKey) {
+		byte[] encKey = Base64.getDecoder().decode(baseKey);
+		return kms.decrypt(encKey);
+	}
 
 	public byte[] takeKeyOut() {
 		byte[] key = null;
@@ -59,8 +69,7 @@ public class AESHandler implements EncryptionHandler{
 
 	@Override
 	public SecretKey getKey(byte[] key) {
-		byte[] fromBase = Base64.getDecoder.decode(key);
-		return new SecretKeySpec(fromBase, 0, key.length, "AES");
+		return new SecretKeySpec(key, 0, key.length, "AES");
 
 	}
 
