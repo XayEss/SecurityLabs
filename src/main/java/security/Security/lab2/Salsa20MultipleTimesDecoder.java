@@ -50,8 +50,8 @@ public class Salsa20MultipleTimesDecoder {
 		wordIndexes = new ArrayList<>();
 		String[] lines = codedLines.split("\n");
 		StringBuilder word = new StringBuilder();
-		//manual();
-		//getKey("lol");
+		manual();
+		//getKey();
 //		 resultLines = new StringBuilder[codedLines.length()];
 //		 possibleLines = new StringBuilder[codedLines.length()];
 //		String linesXoredHex = byteXorHexLines(lines[0], lines[2]);
@@ -170,16 +170,16 @@ public class Salsa20MultipleTimesDecoder {
 		  }
 		 */
 		for (String string : lines) {
-			String result = convertHexToString(hexXorLines(string, getKey("jjj")));
+			String result = convertHexToString(hexXorLines(string, getKey()));
 			System.out.println(result);
 		}
 
 	}
 	
-	public String getKey(String line) {
+	public String getKey() {
 		String[] lines = codedLines.split("\n");
 		String key = hexXorLines(lines[0], convertStringToHex("For who would bear the whips and scorns of time"));
-		System.out.println(key);
+		System.out.println("key " + key);
 		return key;
 	}
 
@@ -202,10 +202,11 @@ public class Salsa20MultipleTimesDecoder {
 				break;
 			}
 			for (String string : firstAndOthers) {
-				System.out.println(string);
+				//System.out.println(string);
 				if (string != null) {
 					String result = convertHexToString(hexXorLines(string, convertStringToHex(crib)));
-					System.out.println("res:" + result);
+					//System.out.println("res Hex: " + hexXorLines(string, convertStringToHex(crib)));
+					//System.out.println("res: " + result);
 				} else {
 					System.out.println("lol");
 				}
@@ -256,6 +257,7 @@ public class Salsa20MultipleTimesDecoder {
 		}
 		return word;
 	}
+	
 
 	public String xorHexNew(String a, String b) {
 		// TODO: Validation
@@ -328,6 +330,17 @@ public class Salsa20MultipleTimesDecoder {
 		for (int i = 0; i < s1.length() && i < s2.length(); i++) {
 			word += Integer.toHexString((Integer.parseInt(String.valueOf(s1.charAt(i)), 16)
 					^ Integer.parseInt(String.valueOf(s2.charAt(i)), 16)));
+		}
+		System.out.println(word);
+		return word;
+	}
+	
+	public String hexXorLinesNoHex(String s1, String s2) {
+		// System.out.println(s1 + " " + s2);
+		String word = "";
+		for (int i = 0; i < s1.length() && i < s2.length(); i++) {
+			word += Integer.toHexString((Integer.parseInt(String.valueOf(s1.charAt(i)), 16)
+					^ s2.charAt(i)));
 		}
 		return word;
 	}

@@ -31,7 +31,7 @@ public class GeneticDecryptor {
 	}
 
 	public void generateGenes(int amount, String seed) {
-		// seed = "ETAOINSHRDLUCMFWYPVBGKJQXZ";
+		seed = "ETAOINSHRDLUCMFWYPVBGKJQXZ";
 		genes = new Gene[geneCount];
 		for (int i = 0; i < amount; i++) {
 			genes[i] = new Gene(seed);
@@ -183,9 +183,7 @@ public class GeneticDecryptor {
 				} else {
 					missingChars.add(substitution);
 				}
-			} else {
-
-			}
+			} 
 		}
 		for (int i = 0; i < childKey.length(); i++) {
 			if (childKey.charAt(i) == ' ') {

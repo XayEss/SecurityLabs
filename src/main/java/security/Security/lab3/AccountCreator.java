@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AccountCreator {
 	private static final String CREATE_ACCOUNT_TEMPLATE = "http://95.217.177.249/casino/createacc?id=%d";
-	private int startId = 99999;
+	private int startId = 756758;
 	
 	public Account createAccount() {
 		Account account = null;

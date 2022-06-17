@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mysecurityproject-341912",
+  "private_key_id": "c395b662b62b92067d20456ca221b80c2eeb1dbb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDRZUnrFOuwxlMR\nCHsgutJMh6uf5Yv+ODjygdPgJdwuIzGe6j4bs4Nnq/Xi8tuH7vClIZOOChWluLAM\n+Lx/6785tARYRDiDQGotyu49uMa3lu7rB+iaiuPRah32QZx4FqaqklGtYxVmdJw5\ndQAfvk6x1MUNA57nBIlxU/lHqQf8kzp1Z0v8E+EEFnsr5QxG1WCMR9dUzvvfmm9N\n2N9H1ttktk0OV/JkghQ0pcI69/0GIx5sDIAZbjEb3bA13N5Xx4sFu76ptiA+B7Wp\nOkyBUUnEZXQ10Gq6tB8XBoyaMAVuZi3aYIFnGNlcaWiCyycMHkrmPKxpK9Yyk9hx\nkL9OzrPvAgMBAAECggEAAgntVNHtoFlMY/OQ41b+U8sHk3VHZ8PBxjBLN4XKC+1a\ny9Q2PTKbwNQoGKJ9tOg3xQI7lUJcejJL2h+uRV6U8sMucaX3mOUoXRn6a0GgnOP/\nn1LPfUW4UlWPeIWka0TpMLfFyzbjDyeegWHpJn+SjsezQ91GD4DE59FF/mBTP0gy\nx98Ohi9N3Rupev8vCEWFBpTeaq0Qiq+YV2evFyyK4PYTPFOIaDfun3GOSomQY2HP\nYRWdVQqMMgwwRCY2350lVnfZRyq0lFQwlK6NAdErbjSj4SuMQlo3/zZhLTq+PGG5\nN33C2Iccf/SeY0oQrFsMxmw33UWq+xR+O26ly9rWKQKBgQD0l0bEl0XCYlNdVlaz\nbStJJ+GWosTAPIE3LaRM9+Ax0wDeUAAn+9ZQXCrjGe804JhUCl799GRdbvwl0wKR\nhK916aUbzYTFrUUZ3BnMKzXsnzeCxYO5/OrC5lv9QLpfmcIo+9jYnzHisLV5df06\nVql3EC8xpYnzEbvT1Hok8HXnpwKBgQDbKbyNy9HUzs478KabgYrCa2HhZQTPS5V/\nTAucmYdZz5dDp7AzI6Z+KyJGUW+YyaFF1IqO1w4Qk/k0jmPHdRZWLWKabcqroedG\nCbv3n5MFIkM2Ua18bQkhM9hXGU0Z7OORexVinfRuuGnGuiNF4p8FO9ZmtWCNVZxl\naS6pu7DaeQKBgQCYD5SHlCRifQ6m8I5mbnCCwrCVHgyEFxmeXFnRICnZz/yyObpf\nIUpUG3juR6lXjmollW0JJW9gRyervEvUfFE5VVC4wETTQK29LgE71YFo4nN4caM7\ndend0alPAXbdCJKVOD3QLuisrn+kS55rLoWc6ArvKqNg4p2LTIXDgVtL8QKBgQC7\n4rP6+9kPj5vOVyj997h1pIltKaVN8YZgc1khD52xqP4Myh2MOevqDiB8GCSL34+a\nxfNjMYqlO7ZRECEKRZ64koAN1EIDkfErYfz69JqdtBna33rTSMai6Ed3pAEtUKBn\ngBV9TdzXbtF/xOOobffWDM5pjuUPRW2mot2WNYoQQQKBgCvz0rSJGgW+pbAKaqnA\n4EGJLd3jhmdBSK5g+g/nDDlEiJYm0sk7NPB5FSXeRmjU0kzIUl4aHRG6IefBYeVm\nyVT5nhck9Fqw8CylCDcAYaFGjppTypYZJN6BYzI3eNTnuez05dQcBDu+hPtbRyoQ\nJ1eYLyDT9pQb3Qs/clfshKjQ\n-----END PRIVATE KEY-----\n",
+  "client_email": "alexsecurity@mysecurityproject-341912.iam.gserviceaccount.com",
+  "client_id": "107284941970588444196",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/alexsecurity%40mysecurityproject-341912.iam.gserviceaccount.com"
+}

@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/webdb
+    username: root
+    password: 
+    driverClassName: com.mysql.jdbc.Driver
+  mvc:
+    view:
+      prefix: src/main/resources/templates/
+      suffix: .jsp
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: src/main/resources/keystore/keystore.p12
+    key-store-password: strongcertpass
+    key-alias: mycertificate
+    key-password: strongcertpass
+    protocols: TLS
+    enabled-protocols: TLSv1.2
+#    client-auth: need
+#    trust-store: src/main/resources/keystore/keystore.p12
+#    trust-store-password: strongcertpass

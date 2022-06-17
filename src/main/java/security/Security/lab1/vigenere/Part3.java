@@ -49,6 +49,7 @@ public class Part3 {
 				pekedCoincedenceIndex.add(i);
 			}
 		}
+		System.out.println(pekedCoincedenceIndex);
 		keyLength = findKeyLength(pekedCoincedenceIndex);
 		// System.out.println(Arrays.toString(pekedCoincedenceIndex.toArray()));
 		System.out.println(keyLength);
@@ -91,27 +92,28 @@ public class Part3 {
 				bytes[1] = (byte) k;
 				for (int l = 0; l < 256; l++) {
 					bytes[2] = (byte) l;
-					for (int m = 0; m < symbols.length / 1; m++) {
+					for (int m = 0; m < symbols.length / 4; m++) {
 						text.append((char) (symbols[m] ^ bytes[m % keyLength]));
 						// System.out.println("m: " + m + "n: " + m%3);
 					}
 					// if(EnglishTextAnalyzer.isEnglishText(text.toString())) {
-					//if (text.toString().contains("Write a code")) {
+					if (text.toString().contains("Write a code")) {
 					double quotient = EnglishTextAnalyzer.isEnglishTextQuotientV2(text.toString());
-					if (quotient <= nearestQuotient) {
+					//if (quotient <= nearestQuotient) {
 						nearestQuotient = quotient;
 						result = text.toString();
 						possibleResults.add(result);
 						possibleKeys.add(new byte[] { bytes[0], bytes[1], bytes[2] });
 						System.out.println(text.toString());
 						System.out.println(quotient);
-
-					}
-					// }
+						System.out.println(new String(bytes));
+					//}
+					 }
 					text.delete(0, text.length());
 				}
 			}
 		}
+		System.out.println(possibleKeys);
 		System.out.println(result);
 		System.out.println(Arrays.deepToString(possibleResults.toArray()));
 		for (int i = 0; i < possibleKeys.size(); i++) {
